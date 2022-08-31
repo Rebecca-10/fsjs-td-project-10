@@ -21,49 +21,39 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   }
-  Course.init({
-    title: {
-
-      type:DataTypes.STRING,
-      allowNull:false,
-      validate:{
-        notNull:{
-          msg:"Title required"
-        },
-        notEmpty:{
-          msg:"Enter Title"
-        },
-      }
-    },
-    
-    
-    
-    description: {
-       type: DataTypes.TEXT,
-       allowNull: false,
-      validate: {
-        notNull: {
-          msg: "A description is required."
-        },
-        notEmpty: {
-          msg: "Please provide a description."
-        }
-      }
-    },
-
-
-    estimatedTime:  {
+  Course.init(
+    {
+      title: {
         type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "A Title is required",
+          },
+          notEmpty: {
+            msg: "Please provide a Title",
+          },
+        },
       },
-
-
-
-    materialsNeeded: {
-        type:DataTypes.STRING,
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "A Description is required",
+          },
+          notEmpty: {
+            msg: "Please provide a Description",
+          },
+        },
+      },
+      estimatedTime: DataTypes.STRING,
+      materialsNeeded: DataTypes.STRING,
     },
-  }, {
-    sequelize,
-    modelName: 'Course',
-  });
+    {
+      sequelize,
+      modelName: "Course",
+    }
+  );
   return Course;
 };

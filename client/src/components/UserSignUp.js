@@ -1,87 +1,16 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Form from './Form';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Errors from "./Errors";
 
-export default class UserSignUp extends Component {
-  state = {
-    firstName: '',
-    lastName: '',
-    emailAddress:'',
-    password: '',
-    errors: [],
-  }
+export default function UserSignUp({ context, history }) {
+  const [errors, setErrors] = useState([]);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
 
-  render() {
-    const {
-      name,
-      username,
-      password,
-      errors,
-    } = this.state;
-
-    return (
-      <div className="bounds">
-        <div className="grid-33 centered signin">
-          <h1>Sign Up</h1>
-          <Form 
-            cancel={this.cancel}
-            errors={errors}
-            submit={this.submit}
-            submitButtonText="Sign Up"
-            elements={() => (
-              <React.Fragment>
-                <input 
-                  id="name" 
-                  name="name" 
-                  type="text"
-                  value={name} 
-                  onChange={this.change} 
-                  placeholder="Name" />
-                <input 
-                  id="username" 
-                  name="username" 
-                  type="text"
-                  value={username} 
-                  onChange={this.change} 
-                  placeholder="User Name" />
-                <input 
-                  id="password" 
-                  name="password"
-                  type="password"
-                  value={password} 
-                  onChange={this.change} 
-                  placeholder="Password" />
-              </React.Fragment>
-            )} />
-          <p>
-            Already have a user account? <Link to="/signin">Click here</Link> to sign in!
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  change = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  }
-
-  submit = () => {
-    const { context } = this.props;
-    const {
-      firstName,
-      lastName,
-      emailAddress,
-      password,
-    } = this.state;
-
-    // Create user
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const user = {
       firstName,
       lastName,
@@ -89,25 +18,77 @@ export default class UserSignUp extends Component {
       password,
     };
 
-    context.data.createUser(user)
-      .then( errors => {
+    context.data
+      .createUser(user)
+      .then((errors) => {
         if (errors.length) {
-          this.setState({ errors });
+          setErrors(errors);
         } else {
-          context.actions.signIn(emailAddress, password)
-            .then(() => {
-              this.props.history.push('/');    
-            });
+          context.actions.signIn(emailAddress, password).then(() => {
+            history.push("/");
+          });
         }
       })
       .catch((err) => {
+        // handle rejected promises
         console.log(err);
-        this.props.history.push('/error');
+        history.push("/error"); // push to history stack
       });
-  
-  }
-//go back to main page 
-  cancel = () => {
-   this.props.history.push('/');
-  }
+  };
+
+  return (
+    <main>
+      <div className="form--centered">
+        <h2>Sign Up</h2>
+        {errors.length > 0 && <Errors errors={errors} />}
+        <form>
+          <label htmlFor="firstName">First Name</label>
+          <input
+            id="firstName"
+            name="firstName"
+            type="text"
+            onChange={(e) => setFirstName(e.target.value)}
+            value={firstName}
+          />
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            id="lastName"
+            name="lastName"
+            type="text"
+            onChange={(e) => setLastName(e.target.value)}
+            value={lastName}
+          />
+          <label htmlFor="emailAddress">Email Address</label>
+          <input
+            id="emailAddress"
+            name="emailAddress"
+            type="email"
+            onChange={(e) => setEmailAddress(e.target.value)}
+            value={emailAddress}
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+          <button className="button" type="submit" onClick={handleSubmit}>
+            Sign Up
+          </button>
+          <button
+            className="button button-secondary"
+            onClick={(event) => event.preventDefault()}
+          >
+            Cancel
+          </button>
+        </form>
+        <p>
+          Already have a user account? Click here to{" "}
+          <Link to={"/signin"}>sign in</Link>
+        </p>
+      </div>
+    </main>
+  );
 }

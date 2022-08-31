@@ -1,89 +1,77 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Form from './Form';
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-export default class UserSignIn extends Component {
-  state = {
-    username: '',
-    password: '',
-    errors: [],
-  }
+import Errors from "./Errors";
 
-  render() {
-    const {
-      username,
-      password,
-      errors,
-    } = this.state;
+export default function UserSingIn({ location, history, context }) {
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
 
-    return (
-      <div className="bounds">
-        <div className="grid-33 centered signin">
-          <h1>Sign In</h1>
-          <Form 
-            cancel={this.cancel}
-            errors={errors}
-            submit={this.submit}
-            submitButtonText="Sign In"
-            elements={() => (
-              <React.Fragment>
-                <input 
-                  id="username" 
-                  name="username" 
-                  type="text"
-                  value={username} 
-                  onChange={this.change} 
-                  placeholder="User Name" />
-                <input 
-                  id="password" 
-                  name="password"
-                  type="password"
-                  value={password} 
-                  onChange={this.change} 
-                  placeholder="Password" />                
-              </React.Fragment>
-            )} />
-          <p>
-            Don't have a user account? <Link to="/signup">Click here</Link> to sign up!
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const submit = (event) => {
+    event.preventDefault();
+    const { from } = location.state || {
+      from: { pathname: "/" },
+    };
 
-  change = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  }
-
-  submit = () => {
-    const { context } = this.props;
-    const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
-    const { username, password } = this.state;
-
-    context.actions.signIn(username, password)
+    context.actions
+      .signIn(emailAddress, password)
       .then((user) => {
         if (user === null) {
-          this.setState(() => {
-            return { errors: [ 'Sign-in was unsuccessful' ] };
-          });
+          setErrors(() => ["Sign-in was unsuccessful"]);
         } else {
-          this.props.history.push(from);
+          history.push(from);
+          console.log(`SUCCESS! ${emailAddress} is now signed in!`);
         }
       })
-      .catch((error) => {
-        console.error(error);
-        this.props.history.push('/error');
+      .catch((err) => {
+        console.log(err);
+        history.push("/error");
       });
-  }
+  };
 
-  cancel = () => {
-    this.props.history.push('/');
-  }
+  const cancel = () => {
+    history.push("/");
+  };
+
+  return (
+    <main>
+      <div className="form--centered">
+        <h2>Sign In</h2>
+        {errors.length > 0 && <Errors errors={errors} />}
+        <form onSubmit={submit}>
+          <label htmlFor="emailAddress">Email Address</label>
+          <input
+            id="emailAddress"
+            name="emailAddress"
+            type="email"
+            value={emailAddress}
+            onChange={(e) => setEmailAddress(e.target.value)}
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="button" type="submit">
+            Sign In
+          </button>
+          <button
+            className="button button-secondary"
+            onClick={(event) => event.preventDefault()}
+          >
+            Cancel
+          </button>
+        </form>
+        <p>
+          Don't have a user account ? Click here to{" "}
+          <Link to={"/signup"}>sign up</Link> !
+        </p>
+      </div>
+    </main>
+  );
 }
