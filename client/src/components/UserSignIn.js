@@ -30,7 +30,7 @@ export default function UserSingIn({ location, history, context }) {
         history.push("/error");
       });
   };
-
+//method to return user  to home page 
   const cancel = () => {
     history.push("/");
   };

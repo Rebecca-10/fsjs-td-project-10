@@ -37,6 +37,10 @@ export default function CreateCourse({ context, history }) {
         history.push("/error"); // push to history stack
       });
   };
+  //method to return user  to home page 
+  const cancel = () => {
+    history.push("/"); 
+  };
 
   return (
     <main>
@@ -102,7 +106,7 @@ export default function CreateCourse({ context, history }) {
           </button>
           <button
             className="button button-secondary"
-            onClick={(event) => event.preventDefault()}
+            onClick={cancel}
           >
             Cancel
           </button>

@@ -73,6 +73,11 @@ export default function UpdateCourse({ context, history }) {
       });
   };
 
+  //method to return user  to home page 
+  const cancel = () => {
+    history.push("/"); 
+  };
+
   return (
     <div className="wrap">
       <h2>Update Course</h2>
@@ -136,7 +141,7 @@ export default function UpdateCourse({ context, history }) {
         </button>
         <button
           className="button button-secondary"
-          onClick={(event) => event.preventDefault()}
+          onClick={cancel}
         >
           Cancel
         </button>
