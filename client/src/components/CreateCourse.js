@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export default function CreateCourse({ context, history }) {
+  //creating state properties
   const [errors, setErrors] = useState([]);
   const [title, setTitle] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
@@ -8,7 +9,7 @@ export default function CreateCourse({ context, history }) {
   const [description, setDescription] = useState("");
 
   const { id, emailAddress, firstName, lastName, password } =
-    context.authenticatedUser;
+    context.authenticatedUser;//adding authenticated user to created variables 
 
   const handleSubmit = (e) => {
     // const { context } = this.props;

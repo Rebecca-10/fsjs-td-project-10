@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+//creating a component uodate course adding history and context to variables 
 export default function UpdateCourse({ context, history }) {
+  //creating state properties 
   const [errors, setErrors] = useState([]);
   // const [course, setCourse] = useState({});
   const [title, setTitle] = useState("");
@@ -9,6 +11,7 @@ export default function UpdateCourse({ context, history }) {
   const [materialsNeeded, setMaterialsNeeded] = useState("");
   const [description, setDescription] = useState("");
 
+  //params for id
   let { id } = useParams();
   const {
     
@@ -18,7 +21,7 @@ export default function UpdateCourse({ context, history }) {
     password,
   } = context.authenticatedUser;
 
-  
+  //useeffect fetches the data from the context.data.getSingleCourse which is a function in the data.js that retrieves the data from the url endpoint
   useEffect(() => {
     const getCourse = async () => {
       try {
@@ -45,7 +48,8 @@ export default function UpdateCourse({ context, history }) {
 
     return () => (unmounted = true);
   }, []);
-
+  
+// a variable that makes a PUT request
   const handleSubmit = (e) => {
     // const { context } = this.props;
     // const { name, username, password } = this.state;

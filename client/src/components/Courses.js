@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 
 const Courses = ({ context, history }) => {
   //const [errors, setErrors] = useState([]);
+  //creating state properties
   const [courses, setCourses] = useState([]);
 
+
+  //useEffect fetches data from the context.data.getCourses which is a function in the data.js that retrieves the data from the url endpoint
   useEffect(() => {
     const getCourses = async () => {
       try {
@@ -32,7 +35,7 @@ const Courses = ({ context, history }) => {
   return (
     <main>
       <div className="wrap main--grid">
-        {courses.map((course) => (
+        {courses.map((course) => ( //gives and index key for each course
           <Link
             to={`/courses/${course.id}`}
             className="course--module course--link"

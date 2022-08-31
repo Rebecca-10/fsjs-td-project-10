@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Errors from "./Errors";
 import ReactMarkdown from "react-markdown";
+
+//creating a component called coursedetail
 export default function CourseDetail({ history, context }) {
   const [errors, setErrors] = useState([]);
   const [course, setCourse] = useState({});
 
-  let { id } = useParams();
-
+  let { id } = useParams();// params for ID
+ 
+  //useEffect fetches data the context.data.getSingleCourse which is a function in the data.js that retrieves the data from the url endpoint
   useEffect(() => {
     const getCourse = async () => {
       try {
@@ -32,14 +35,14 @@ export default function CourseDetail({ history, context }) {
 
     return () => (unmounted = true);
   }, []);
-
+  //function fetches data 
   const handleDelete = async (id) => {
     const {emailAddress , password} = context.authenticatedUser;
     const user = {
       emailAddress,
       password,
     };
-    // execute delete api
+    // execute delete api. if errors are caught will not delete
     try {
       const deleteCourse = await context.data.deleteCourse(id, user);
 
@@ -80,8 +83,9 @@ export default function CourseDetail({ history, context }) {
               <Link className="button" to={`/`}>
                 Return to List
               </Link>
-            </div>
+            </div> 
           </div>
+               {/*if no authourised user only show return*/ }
 
           <div className="wrap">
             <h2>Course Detail</h2>
