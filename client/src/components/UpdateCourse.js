@@ -9,15 +9,16 @@ export default function UpdateCourse({ context, history }) {
   const [materialsNeeded, setMaterialsNeeded] = useState("");
   const [description, setDescription] = useState("");
 
+  let { id } = useParams();
   const {
-    id: userId,
+    
     emailAddress,
     firstName,
     lastName,
     password,
   } = context.authenticatedUser;
 
-  let { id } = useParams();
+  
   useEffect(() => {
     const getCourse = async () => {
       try {

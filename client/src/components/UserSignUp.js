@@ -31,11 +31,13 @@ export default function UserSignUp({ context, history }) {
       })
       .catch((err) => {
         // handle rejected promises
-        console.log(err);
+        //console.log(err);
         history.push("/error"); // push to history stack
       });
   };
-
+  const cancel = () => {
+    history.push("/");
+  };
   return (
     <main>
       <div className="form--centered">
@@ -79,7 +81,7 @@ export default function UserSignUp({ context, history }) {
           </button>
           <button
             className="button button-secondary"
-            onClick={(event) => event.preventDefault()}
+            onClick={cancel} 
           >
             Cancel
           </button>

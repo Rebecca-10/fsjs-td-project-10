@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
+//import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import Errors from "./Errors";
@@ -62,9 +62,9 @@ export default function UserSingIn({ location, history, context }) {
           </button>
           <button
             className="button button-secondary"
-            onClick={(event) => event.preventDefault()}
+            onClick={cancel} //{(event) => event.preventDefault()}
           >
-            Cancel
+           cancel
           </button>
         </form>
         <p>

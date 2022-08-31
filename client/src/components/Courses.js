@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Courses = ({ context, history }) => {
-  const [errors, setErrors] = useState([]);
+  //const [errors, setErrors] = useState([]);
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const Courses = ({ context, history }) => {
       try {
         const courses = await context.data.getCourses();
         if (courses === null) {
-          setErrors(["No Courses Found !"]);
+          console.log(["No Courses Found !"]);
         } else {
           setCourses(courses);
         }
