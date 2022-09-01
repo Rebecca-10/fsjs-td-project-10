@@ -8,12 +8,12 @@ export default (props) => {
     submitButtonText,
     elements,
   } = props;
-
+//submiting behaviour
   function handleSubmit(event) {
     event.preventDefault();
     submit();
   }
-
+//cancelling button behaviour
   function handleCancel(event) {
     event.preventDefault();
     cancel();
@@ -33,6 +33,7 @@ export default (props) => {
   );
 }
 
+//this will return a list of validation errorss
 function ErrorsDisplay({ errors }) {
   let errorsDisplay = null;
 

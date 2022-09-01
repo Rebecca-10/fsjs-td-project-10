@@ -1,6 +1,8 @@
+//importing dependencies
 import React from "react";
 import { Link } from "react-router-dom";
 
+//creating a component called Header adding context and authenticatedUser
 export default function Header(props) {
   const {context} = props;
   const authUser = context.authenticatedUser;
@@ -13,7 +15,7 @@ export default function Header(props) {
         </h1>
         <nav>
           <ul className="header--signedout">
-            {authUser ? (
+            {authUser ? (//if user isnt authourised the name will not show in the header
               <React.Fragment>
                 <span>Welcome, {authUser.firstName} </span>
                 <li>
